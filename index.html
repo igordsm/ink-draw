@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hand Notes</title>
+
+    <link rel="stylesheet" href="main.css">
+    <style>
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      article {
+        display: flex;
+        flex-direction: row;
+        height: 90%;
+      }
+
+      #canvas {
+        max-height: 100%;
+        max-width: 100%;
+        border: 1px solid black;
+      }
+
+
+
+      .brush-color {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 1.5rem;
+        margin: 0.5rem;
+      }
+
+      .brush-pallete {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .tool img.icon {
+        display: block;
+        max-height: 2rem;
+        max-width: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+      }
+
+      .tool.inactive .tool-option {
+        display: none;
+      }
+
+      .tool.active .tool-option {
+        display: block;
+      }
+
+      .brush-width {
+        width: 80%;
+        padding-top: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .brush-width span {
+        display: block;
+        background-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      Hand notes
+    </header>
+    <article>
+      <section id="toolbox">
+        <div class="tool" id="brush-tool">
+          <img class="icon" src="pencil.svg">
+          <div class="brush-pallete">
+            <div class="brush-color tool-option" style="background-color:black"></div>
+            <div class="brush-color tool-option" style="background-color:red"></div>
+            <div class="brush-color tool-option" style="background-color:green"></div>
+            <div class="brush-color tool-option" style="background-color:yellow"></div>
+            <div class="brush-color tool-option" style="background-color:dodgerblue"></div>
+          </div>
+          
+          <hr>
+          <div class="brush-width tool-option"><span style="height: 0.1rem"></span>1pt</div>
+          <div class="brush-width tool-option"><span style="height: 0.2rem"></span>2pt</div>
+          <div class="brush-width tool-option"><span style="height: 0.5rem"></span>5pt</div>
+        </div>
+        <div class="tool" id="zoom-in">
+          <img class="icon" src="zoom-plus.svg">
+        </div>
+        <div class="tool" id="zoom-out">
+          <img class="icon" src="zoom-minus.svg">
+        </div>
+        <div class="tool" id="pan">
+          <img class="icon" src="hand.svg">
+        </div>        
+      </section>
+      <section id="canvas">
+        <svg viewbox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg>
+      </section>
+      <section>
+        Abrir: <input type="file" id="open-button"/>
+        <button id="save-button">Save</button>
+      </section>
+    </article>
+    
+    
+
+    <!-- Include Scala.js compiled code -->
+    <script type="text/javascript" src="./target/scala-3.1.0/scala-js-tutorial-fastopt/main.js"></script>
+    
+  </body>
+</html>
