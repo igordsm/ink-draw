@@ -1,7 +1,83 @@
-#toolbox {
-    display: flex;
-    flex-direction: column;
+html {
+  width: 100%;
+  height: 100%;
+}
 
-    min-width: 5rem;
-    max-width: 5rem;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  height: 90%;
+}
+
+
+#canvas {
+  flex-grow: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#canvas > svg {
+  max-height: 100%;
+  max-width: 100%;
+  border: 1px solid black;
+}
+
+#toolbox {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 5rem;
+  max-width: 5rem;
+}
+
+.brush-color {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 1.5rem;
+  margin: 0.5rem;
+}
+
+.brush-pallete {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tool img.icon {
+  display: block;
+  max-height: 2rem;
+  max-width: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.tool.inactive .tool-option {
+  display: none;
+}
+
+.tool.active .tool-option {
+  display: block;
+}
+
+.brush-width {
+  width: 80%;
+  padding-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brush-width span {
+  display: block;
+  background-color: black;
+}
