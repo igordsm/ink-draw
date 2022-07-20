@@ -1,4 +1,4 @@
-package tuto.web
+package com.github.igordsm.inkdraw
 
 import org.scalajs.dom
 import org.scalajs.dom.SVGPathElement
@@ -24,7 +24,7 @@ class Canvas(id: String) {
   current_tool.activate()
 
   def reload(s: String) = {
-    element.innerHTML = 
+    
   }
 
   def setUpTool(tool: Tool) = {

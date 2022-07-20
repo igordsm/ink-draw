@@ -1,4 +1,4 @@
-package tuto.web
+package com.github.igordsm.inkdraw
 
 import org.scalajs.dom
 import org.scalajs.dom.document
