@@ -11,7 +11,7 @@ class Canvas(id: String) {
   val element: SVGElement = document.getElementById(id).querySelector("svg").asInstanceOf[SVGElement]
   var current_path: Option[SVGPathElement] = None
 
-  val brushTool = new BrushTool(this, "brush-tool", "black", 1)
+  val brushTool = new BrushTool(this, "brush-tool")
   setUpTool(brushTool)
   val zoomIn = new ZoomTool(this, "zoom-in", 0.8)
   setUpTool(zoomIn)

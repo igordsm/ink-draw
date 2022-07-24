@@ -2,6 +2,7 @@ package com.github.igordsm.inkdraw
 
 import org.scalajs.dom
 import org.scalajs.dom.document
+import org.scalajs.dom.Event
 
 
 trait Tool {
@@ -32,22 +33,24 @@ class ZoomTool(val canvas: Canvas, val zoomId: String, factor: Double) extends T
   }
 }
 
-class BrushTool(val canvas: Canvas, val id: String, var color: String, var strokeWidth: Double)
+class BrushTool(val canvas: Canvas, val id: String)
     extends Tool {
   var current_path: Option[dom.SVGPathElement] = None
   val element = document.getElementById(id)
-  var deactivateFun = () => {}
+  var strokeWidth = 1.0
 
-  document
-    .querySelectorAll(".brush-color")
-    .foreach({ brush =>
-      brush.addEventListener(
-        "click",
-        { _ =>
-          color = brush.asInstanceOf[dom.HTMLElement].style.backgroundColor
-        }
-      )
-    })
+  val brushColorElement = document.getElementById("brush-color").asInstanceOf[dom.HTMLInputElement]
+  brushColorElement.addEventListener("input", (e) => {
+    color = brushColorElement.value
+  })
+  var color = brushColorElement.value
+
+
+  val strokeWidthElement = document.getElementById("stroke-width").asInstanceOf[dom.HTMLInputElement]
+  strokeWidthElement.addEventListener("input", (e) => {
+    strokeWidth = strokeWidthElement.value.toDouble
+  })
+  strokeWidth = strokeWidthElement.value.toDouble
 
   document
     .querySelectorAll(".brush-width")
@@ -69,18 +72,18 @@ class BrushTool(val canvas: Canvas, val id: String, var color: String, var strok
     element.classList.add("active")
     element.classList.remove("inactive")
 
-    canvas.element.addEventListener("mousedown", startStrokeJs)
-    canvas.element.addEventListener("mouseup", endStrokeJs)
-    canvas.element.addEventListener("mousemove", mouseMoveJS)
+    canvas.element.addEventListener("pointerdown", startStrokeJs)
+    canvas.element.addEventListener("pointerup", endStrokeJs)
+    canvas.element.addEventListener("pointermove", mouseMoveJS)
   }
 
   override def deactivate(): Unit = {
     element.classList.add("inactive")
     element.classList.remove("active")
 
-    canvas.element.removeEventListener("mousedown", startStrokeJs)
-    canvas.element.removeEventListener("mouseup", endStrokeJs)
-    canvas.element.removeEventListener("mousemove", mouseMoveJS)
+    canvas.element.removeEventListener("pointerdown", startStrokeJs)
+    canvas.element.removeEventListener("pointerup", endStrokeJs)
+    canvas.element.removeEventListener("pointermove", mouseMoveJS)
   }
 
   def offsetToViewBox(c: Canvas, offset: (Double, Double, Double, Double)) = {
@@ -99,6 +102,7 @@ class BrushTool(val canvas: Canvas, val id: String, var color: String, var strok
       val cp = document
         .createElementNS("http://www.w3.org/2000/svg", "path")
         .asInstanceOf[dom.SVGPathElement]
+      
       val posViewBox = offsetToViewBox(canvas, offset)
       cp.setAttribute("d", s"M ${posViewBox(0)} ${posViewBox(1)} ")
       cp.setAttribute("fill", "transparent")
@@ -135,11 +139,11 @@ class PanTool(val canvas: Canvas, id: String) extends Tool {
 
   val dragCanvasJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = dragCanvas
   override def activate(): Unit = {
-    canvas.element.addEventListener("mousemove", dragCanvasJs)
+    canvas.element.addEventListener("pointermove", dragCanvasJs)
   }
 
   override def deactivate(): Unit = {
-    canvas.element.removeEventListener("mousemove", dragCanvasJs)
+    canvas.element.removeEventListener("pointermove", dragCanvasJs)
   }
 
   def dragCanvas(e: dom.MouseEvent) = {

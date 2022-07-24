@@ -10,20 +10,14 @@
   <body>
     <header>
       <div class="title">Hand notes</div>
-      <section>
+      <section class="active">
         <div class="tool" id="brush-tool">
           <img class="icon" src="pencil.svg">
           <div class="color-options">
-            <div class="brush-color tool-option" style="background-color:black"></div>
-            <div class="brush-color tool-option" style="background-color:red"></div>
-            <div class="brush-color tool-option" style="background-color:green"></div>
-            <div class="brush-color tool-option" style="background-color:yellow"></div>
-            <div class="brush-color tool-option" style="background-color:dodgerblue"></div>
+            <input type="color" id="brush-color">
           </div>
           <div class="stroke-options">
-            <div class="brush-width tool-option"><span style="height: 0.1rem"></span>1pt</div>
-            <div class="brush-width tool-option"><span style="height: 0.2rem"></span>2pt</div>
-            <div class="brush-width tool-option"><span style="height: 0.5rem"></span>5pt</div>
+            <input type="range" min="1" max="5" value="1" id="stroke-width">
           </div>
         </div>
 

@@ -13,6 +13,8 @@ body {
   overflow: hidden;
 }
 
+/* Header menu */
+
 header {
   background-color: rgb(106, 100, 170);
 }
@@ -25,9 +27,12 @@ header .title {
   border-bottom: 1px solid aliceblue;
 }
 
-header > section {
-  display: flex;
-  flex-direction: row;
+header section.active {
+  display: block;
+}
+
+header section {
+  display: none;
 }
 
 article {
@@ -37,10 +42,13 @@ article {
 }
 
 
+/* --------------------------------- */
+
 #canvas {
   flex-grow: 1;
   padding-top: 10px;
   padding-bottom: 10px;
+  touch-action: none;
 }
 
 #canvas > svg {
@@ -49,6 +57,7 @@ article {
   max-height: 100%;
   max-width: 800px;
   border: 1px solid black;
+  touch-action: none;
 }
 
 
