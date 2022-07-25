@@ -6,9 +6,10 @@ import org.scalajs.dom.document
 import org.scalajs.dom.SVGElement
 import org.scalajs.dom.URL
 import org.scalajs.dom.HTMLInputElement
+import org.scalajs.dom.HTMLElement
 
 class Canvas(id: String) {
-  val element: SVGElement = document.getElementById(id).querySelector("svg").asInstanceOf[SVGElement]
+  val element = document.getElementById(id).querySelector("svg").asInstanceOf[HTMLElement]
   var current_path: Option[SVGPathElement] = None
 
   val brushTool = new BrushTool(this, "brush-tool")
@@ -20,36 +21,51 @@ class Canvas(id: String) {
   val pan = new PanTool(this, "pan")
   setUpTool(pan)
 
-  var current_tool: Tool = brushTool
-  current_tool.activate()
+  var currentTool: Tool = pan
+  activateTool(pan)
 
   def reload(s: String) = {
     
   }
 
+  def activateTool(tool: Tool) = {
+    currentTool.deactivate()
+    tool.activate()
+    currentTool = tool
+    element.style.cursor = currentTool.cursor
+
+  }
+
   def setUpTool(tool: Tool) = {
     val el = tool.element
-      .querySelector("img.icon")
+      .querySelector(".icon")
       .addEventListener(
         "click",
         (e: dom.MouseEvent) => {
-          current_tool.deactivate()
-          tool.activate()
-          current_tool = tool
+          activateTool(tool)
         }
       )
   }
 
-  def getViewBox() = {
+  def getEffectiveViewBox() = {
     val vboxAttr = element.getAttribute("viewBox").split(" ")
     val x = vboxAttr(0).toDouble
     val y = vboxAttr(1).toDouble
     val w = vboxAttr(2).toDouble
     val h = vboxAttr(3).toDouble
 
-    (x, y, w, h)
+    val rect = element.getBoundingClientRect()
+    if (rect.height > rect.width) {
+      val ratioW = w / rect.width 
+      val effectiveH = rect.height * ratioW
+      (x, y, w, effectiveH)
+    } else {
+      val ratioH = h / rect.height
+      val effectiveW = rect.width * ratioH
+      (x, y, effectiveW, h)
+    }
   }
-
+  
   def getOffset(e: dom.MouseEvent) = {
     val targetRect = element.getClientRects();
     val offsetX = e.clientX - targetRect(0).left;
@@ -58,7 +74,7 @@ class Canvas(id: String) {
   }
 
   def move(dx: Double, dy: Double) = {
-    val (x, y, w, h) = getViewBox()
+    val (x, y, w, h) = getEffectiveViewBox()
     element.setAttribute("viewBox", f"${x + dx} ${y + dy} $w $h")
   }
 

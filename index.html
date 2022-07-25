@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hand Notes</title>
 
-    <link rel="stylesheet" href="main.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hand Notes</title>
 
-  <body>
-    <header>
-      <div class="title">Hand notes</div>
-      <section class="active">
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <article id="canvas">
+    <svg viewBox="0 0 300 300" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+    </svg>
+    <section id="menu">
+      <div class="tools">
         <div class="tool" id="brush-tool">
-          <img class="icon" src="pencil.svg">
-          <div class="color-options">
-            <input type="color" id="brush-color">
-          </div>
-          <div class="stroke-options">
-            <input type="range" min="1" max="5" value="1" id="stroke-width">
-          </div>
+          <svg class="icon" viewBox="0 0 512 512">
+            <use href="pencil.svg#pencil-icon" />
+          </svg>
         </div>
 
         <div class="tool" id="zoom-in">
@@ -27,23 +27,28 @@
         <div class="tool" id="zoom-out">
           <img class="icon" src="zoom-minus.svg">
         </div>
+
         <div class="tool" id="pan">
           <img class="icon" src="hand.svg">
-        </div>       
-      </section>
-      <section>
-        Abrir: <input type="file" id="open-button"/>
-        <button id="save-button">Save</button>
-      </section>
-    </header>
-    <article id="canvas">
-      <svg viewbox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg>
-    </article>
-    
-    
+        </div>
+      </div>
+    </section>
+    <section id="options-menus">
+      <div id="brush-options" class="options">
+        <div class="arrow-up"></div>
+        <div class="content">
+          <p>Color</p>
+          <input type="color" id="brush-color">
+          <p>Width</p>
+          <input type="range" min="1" max="5" value="1" id="stroke-width">
+        </div>
+      </div>
+    </section>
+  </article>
 
-    <!-- Include Scala.js compiled code -->
-    <script type="text/javascript" src="./target/scala-3.1.0/scala-js-tutorial-fastopt/main.js"></script>
-    
-  </body>
+  <!-- Include Scala.js compiled code -->
+  <script type="text/javascript" src="./target/scala-3.1.0/scala-js-tutorial-fastopt/main.js"></script>
+
+</body>
+
 </html>
