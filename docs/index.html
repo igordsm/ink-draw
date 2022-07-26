@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hand Notes</title>
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <article id="canvas">
+    <svg viewBox="0 0 300 300" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+    </svg>
+    <section id="file-menu">
+      <div class="tools">
+        <div class="tool" id="open">
+          <label>
+            <img src="open.svg" class="icon">  
+            <input type="file" id="open-button" accept="image/svg+xml">
+          </label>
+        </div>
+        <div class="tool" id="save-button">
+          <img src="save.svg" class="icon">
+        </div>
+      </div>
+    </section>
+    <section id="menu">
+      <div class="tools">
+        <div class="tool" id="brush-tool">
+          <svg class="icon" viewBox="0 0 512 512">
+            <use href="pencil.svg#pencil-icon" />
+          </svg>
+        </div>
+
+        <div class="tool" id="zoom-in">
+          <img class="icon" src="zoom-plus.svg">
+        </div>
+        <div class="tool" id="zoom-out">
+          <img class="icon" src="zoom-minus.svg">
+        </div>
+
+        <div class="tool" id="pan">
+          <img class="icon" src="hand.svg">
+        </div>
+      </div>
+    </section>
+    <section id="options-menus">
+      <div id="brush-options" class="options">
+        <div class="arrow-up"></div>
+        <div class="content">
+          <p>Color</p>
+          <input type="color" id="brush-color">
+          <p>Width</p>
+          <input type="range" min="1" max="5" value="1" id="stroke-width">
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <!-- Include Scala.js compiled code -->
+  <script type="text/javascript" src="main.js"></script>
+
+</body>
+
+</html>
