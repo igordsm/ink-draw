@@ -9,8 +9,7 @@ import org.scalajs.dom.HTMLInputElement
 import org.scalajs.dom.HTMLElement
 
 class Canvas(id: String) {
-  val element = document.getElementById(id).querySelector("svg").asInstanceOf[HTMLElement]
-  var current_path: Option[SVGPathElement] = None
+  var element = document.getElementById(id).querySelector("svg").asInstanceOf[HTMLElement]
 
   val brushTool = new BrushTool(this, "brush-tool")
   setUpTool(brushTool)
@@ -21,19 +20,22 @@ class Canvas(id: String) {
   val pan = new PanTool(this, "pan")
   setUpTool(pan)
 
-  var currentTool: Tool = pan
-  activateTool(pan)
+  var currentTool: Tool = brushTool
+  activateTool(currentTool)
 
-  def reload(s: String) = {
-    
-  }
+  move(0, 0)
 
   def activateTool(tool: Tool) = {
     currentTool.deactivate()
     tool.activate()
     currentTool = tool
     element.style.cursor = currentTool.cursor
+  }
 
+  def loadExternalSVG(s: String) = {
+    element.outerHTML = s
+    element = document.getElementById(id).querySelector("svg").asInstanceOf[HTMLElement]
+    move(0, 0)
   }
 
   def setUpTool(tool: Tool) = {

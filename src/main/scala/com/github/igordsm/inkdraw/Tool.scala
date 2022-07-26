@@ -71,9 +71,9 @@ class BrushTool(val canvas: Canvas, val id: String)
     icon.style.color = c
   }
 
-  val startStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = start_stroke
-  val endStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = end_stroke
-  val mouseMoveJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = mouse_move_canvas
+  val startStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = startStroke
+  val endStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = endStroke
+  val mouseMoveJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = pointerMove
 
   override def doActivationLogic() = {
     canvas.element.addEventListener("pointerdown", startStrokeJs)
@@ -100,7 +100,7 @@ class BrushTool(val canvas: Canvas, val id: String)
     (xViewBox, yViewBox)
   }
 
-  def start_stroke(e: dom.MouseEvent) = {
+  def startStroke(e: dom.MouseEvent) = {
     val offset = canvas.getOffset(e)
 
     if (e.buttons == 1) {
@@ -109,10 +109,8 @@ class BrushTool(val canvas: Canvas, val id: String)
         .asInstanceOf[dom.SVGPathElement]
       
       val posViewBox = offsetToViewBox(canvas, offset)
-      println(posViewBox)
-      println(offset)
       cp.setAttribute("d", s"M ${posViewBox(0)} ${posViewBox(1)} ")
-      cp.setAttribute("fill", "transparent")
+      cp.setAttribute("fill", "none")
       cp.setAttribute("stroke", color)
       cp.setAttribute("stroke-width", strokeWidth.toString())
       canvas.element.appendChild(cp)
@@ -121,11 +119,11 @@ class BrushTool(val canvas: Canvas, val id: String)
     }
   }
 
-  def end_stroke(e: dom.MouseEvent) = {
+  def endStroke(e: dom.MouseEvent) = {
     current_path = None
   }
 
-  def mouse_move_canvas(e: dom.MouseEvent): Unit = {
+  def pointerMove(e: dom.MouseEvent): Unit = {
     val offset = canvas.getOffset(e)
     current_path match
       case Some(cp: dom.SVGPathElement) => {

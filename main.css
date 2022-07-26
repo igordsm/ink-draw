@@ -1,6 +1,8 @@
 :root {
   --options-size: 4vw;
   --options-color: lightgray;
+
+  --icon-size: 3vw;
 }
 
 
@@ -30,6 +32,28 @@ article>svg {
   touch-action: none;
 }
 
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  box-sizing: border-box;
+  padding: 0.5vw;
+}
+
+#file-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#file-menu .tools {
+  display: flex;
+  flex-direction: row;
+}
+
+#file-menu #open input[type=file] {
+  display: none;
+}
+
 #menu {
   position: absolute;
   top: 0;
@@ -43,7 +67,7 @@ article>svg {
 
 #menu div.tools .tool {
   flex-grow: 1;
-  width: 3vw;
+  width: var(--icon-size);
   padding: 0.5vw;
   box-sizing: border-box;
 }
