@@ -3,7 +3,7 @@ package com.github.igordsm.inkdraw
 import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.Event
-
+import org.scalajs.dom.Element
 
 trait Tool {
   val canvas: Canvas
@@ -13,6 +13,7 @@ trait Tool {
   def activate() = {
     element.classList.add("active")
     element.classList.remove("inactive")
+    canvas.element.style.cursor = cursor
 
     doActivationLogic()
   }
@@ -24,20 +25,16 @@ trait Tool {
     doDeactivationLogic()
   }
 
-  def doActivationLogic() = {
+  def doActivationLogic() = {}
 
-  }
-
-  def doDeactivationLogic() = {
-
-  }
+  def doDeactivationLogic() = {}
 
 }
 
-class ZoomTool(val canvas: Canvas, val zoomId: String, factor: Double) extends Tool {
+class ZoomTool(val canvas: Canvas, val zoomId: String, factor: Double)
+    extends Tool {
   val element = document.getElementById(zoomId)
   override val cursor: String = if (factor <= 1) "zoom-in" else "zoom-out"
-
 
   val doZoomJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = doZoom
 
@@ -51,18 +48,16 @@ class ZoomTool(val canvas: Canvas, val zoomId: String, factor: Double) extends T
 
   def doZoom(e: dom.MouseEvent) = {
     val (x, y, w, h) = canvas.getEffectiveViewBox()
-    canvas.element.setAttribute("viewBox", f"$x $y ${w * factor } ${h *factor}")
+    canvas.element.setAttribute("viewBox", f"$x $y ${w * factor} ${h * factor}")
   }
 }
 
-class BrushTool(val canvas: Canvas, val id: String)
-    extends Tool {
+class BrushTool(val canvas: Canvas, val id: String) extends Tool {
   var current_path: Option[dom.SVGPathElement] = None
   val element = document.getElementById(id)
   val icon = element.querySelector(".icon").asInstanceOf[dom.HTMLElement]
   var strokeWidth = 1.0
   private var color = "black"
-
 
   def getColor() = color
 
@@ -71,9 +66,11 @@ class BrushTool(val canvas: Canvas, val id: String)
     icon.style.color = c
   }
 
-  val startStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = startStroke
+  val startStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    startStroke
   val endStrokeJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = endStroke
-  val mouseMoveJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = pointerMove
+  val mouseMoveJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    pointerMove
 
   override def doActivationLogic() = {
     canvas.element.addEventListener("pointerdown", startStrokeJs)
@@ -91,15 +88,6 @@ class BrushTool(val canvas: Canvas, val id: String)
     BrushConfiguration.hide()
   }
 
-  def offsetToViewBox(c: Canvas, offset: (Double, Double, Double, Double)) = {
-    val (x, y, w, h) = c.getEffectiveViewBox()
-
-    val xViewBox = x + (offset(0) / offset(2)) * w
-    val yViewBox = y + (offset(1) / offset(3)) * h
-
-    (xViewBox, yViewBox)
-  }
-
   def startStroke(e: dom.MouseEvent) = {
     val offset = canvas.getOffset(e)
 
@@ -107,8 +95,8 @@ class BrushTool(val canvas: Canvas, val id: String)
       val cp = document
         .createElementNS("http://www.w3.org/2000/svg", "path")
         .asInstanceOf[dom.SVGPathElement]
-      
-      val posViewBox = offsetToViewBox(canvas, offset)
+
+      val posViewBox = canvas.offsetToViewBox(offset)
       cp.setAttribute("d", s"M ${posViewBox(0)} ${posViewBox(1)} ")
       cp.setAttribute("fill", "none")
       cp.setAttribute("stroke", color)
@@ -128,7 +116,7 @@ class BrushTool(val canvas: Canvas, val id: String)
     current_path match
       case Some(cp: dom.SVGPathElement) => {
         if (e.buttons == 1) {
-          val posViewBox = offsetToViewBox(canvas, offset)
+          val posViewBox = canvas.offsetToViewBox(offset)
           val current_d = cp.getAttribute("d")
           val next_d = current_d.concat(s"L ${posViewBox(0)} ${posViewBox(1)} ")
           cp.setAttribute("d", next_d)
@@ -143,7 +131,8 @@ class PanTool(val canvas: Canvas, id: String) extends Tool {
   val element = document.getElementById(id)
   override val cursor: String = "grab"
 
-  val dragCanvasJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] = dragCanvas
+  val dragCanvasJs: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    dragCanvas
   override def doActivationLogic(): Unit = {
     canvas.element.addEventListener("pointermove", dragCanvasJs)
   }
@@ -163,26 +152,109 @@ class PanTool(val canvas: Canvas, id: String) extends Tool {
   }
 }
 
+class EraserTool(val canvas: Canvas, id: String) extends Tool {
+  val element: Element = document.getElementById(id)
+  override val cursor: String = "cell"
+
+  val mouseDownHandlerJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    mouseDownHandler
+  val mouseUpHandlerJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    mouseUpHandler
+  val mouseMoveHandlerJS: scala.scalajs.js.Function1[dom.MouseEvent, Unit] =
+    mouseMoveHandler
+
+  override def doActivationLogic(): Unit = {
+    canvas.element.addEventListener("pointerdown", mouseDownHandlerJS)
+    canvas.element.addEventListener("pointerup", mouseUpHandlerJS)
+  }
+
+  override def doDeactivationLogic(): Unit = {
+    canvas.element.removeEventListener("pointerdown", mouseDownHandlerJS)
+    canvas.element.removeEventListener("pointerup", mouseUpHandlerJS)
+  }
+
+  def mouseDownHandler(e: dom.MouseEvent) = {
+    startSelectingStrokes()
+  }
+
+  def mouseUpHandler(e: dom.MouseEvent) = {
+    endSelectingStrokes()
+  }
+
+  def mouseMoveHandler(e: dom.MouseEvent) = {
+    val startX = scala.math.min(e.clientX, e.clientX + e.movementX).ceil.toInt
+    val endX = scala.math.max(e.clientX, e.clientX + e.movementX).ceil.toInt
+    val startY = scala.math.min(e.clientY, e.clientY + e.movementY).ceil.toInt
+    val endY = scala.math.max(e.clientY, e.clientY + e.movementY).ceil.toInt
+    
+    var elementToDelete: Option[dom.Element] = None
+    for (x <- startX to endX) {
+      val elementUnderPointer = document.elementFromPoint(x, e.clientY)
+      if (elementUnderPointer != canvas.element) {
+        elementToDelete = Some(elementUnderPointer)
+      }
+    }
+
+    for (y <- startY to endY) {
+      val elementUnderPointer = document.elementFromPoint(e.clientX, y)
+      if (elementUnderPointer != canvas.element) {
+        elementToDelete = Some(elementUnderPointer)
+      }
+    }
+
+    elementToDelete match {
+      case Some(stroke) => {
+        stroke.asInstanceOf[dom.SVGElement].classList.add("to-delete")
+      }
+      case _ => {}
+    }
+  }
+
+  def startSelectingStrokes() = {
+    canvas.element.addEventListener("pointermove", mouseMoveHandlerJS)
+  }
+
+  def endSelectingStrokes() = {
+    canvas.element.removeEventListener("pointermove", mouseMoveHandlerJS)
+
+    canvas.element
+      .querySelectorAll(".to-delete")
+      .foreach((e) => {
+        e.remove()
+      })
+  }
+}
+
 object BrushConfiguration {
-  val element = document.getElementById("brush-options").asInstanceOf[dom.HTMLElement]
+  val element =
+    document.getElementById("brush-options").asInstanceOf[dom.HTMLElement]
   var activeBrush: Option[BrushTool] = None
 
-
-  val brushColorElement = element.querySelector("input[type=color]").asInstanceOf[dom.HTMLInputElement]
-  brushColorElement.addEventListener("input", (e) => {
-    activeBrush match {
-      case Some(tool) => tool.setColor(brushColorElement.value)
-      case None => {}
+  val brushColorElement = element
+    .querySelector("input[type=color]")
+    .asInstanceOf[dom.HTMLInputElement]
+  brushColorElement.addEventListener(
+    "input",
+    (e) => {
+      activeBrush match {
+        case Some(tool) => tool.setColor(brushColorElement.value)
+        case None       => {}
+      }
     }
-  })
+  )
 
-  val strokeWidthElement = element.querySelector("input[type=range]").asInstanceOf[dom.HTMLInputElement]
-  strokeWidthElement.addEventListener("input", (e) => {
-    activeBrush match {
-      case Some(tool) => tool.strokeWidth = strokeWidthElement.value.toDouble
-      case None => {}
+  val strokeWidthElement = element
+    .querySelector("input[type=range]")
+    .asInstanceOf[dom.HTMLInputElement]
+  strokeWidthElement.addEventListener(
+    "input",
+    (e) => {
+      activeBrush match {
+        case Some(tool) => tool.strokeWidth = strokeWidthElement.value.toDouble
+        case None       => {}
+      }
     }
-  })
+  )
 
   def show(bt: BrushTool) = {
     activeBrush = Some(bt)

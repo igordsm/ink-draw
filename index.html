@@ -12,6 +12,14 @@
 <body>
   <article id="canvas">
     <svg viewBox="0 0 300 300" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        .to-delete {
+          filter: url(#delete-filter);
+        }
+      </style>
+      <filter id="delete-filter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3"></feGaussianBlur>
+      </filter>
     </svg>
     <section id="file-menu">
       <div class="tools">
@@ -32,6 +40,10 @@
           <svg class="icon" viewBox="0 0 512 512">
             <use href="pencil.svg#pencil-icon" />
           </svg>
+        </div>
+
+        <div class="tool" id="eraser">
+          <img class="icon" src="hand.svg">
         </div>
 
         <div class="tool" id="zoom-in">

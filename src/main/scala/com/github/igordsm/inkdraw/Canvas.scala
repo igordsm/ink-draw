@@ -19,6 +19,8 @@ class Canvas(id: String) {
   setUpTool(zoomOut)
   val pan = new PanTool(this, "pan")
   setUpTool(pan)
+  val eraser = new EraserTool(this, "eraser")
+  setUpTool(eraser)
 
   var currentTool: Tool = brushTool
   activateTool(currentTool)
@@ -29,7 +31,6 @@ class Canvas(id: String) {
     currentTool.deactivate()
     tool.activate()
     currentTool = tool
-    element.style.cursor = currentTool.cursor
   }
 
   def loadExternalSVG(s: String) = {
@@ -74,6 +75,16 @@ class Canvas(id: String) {
     val offsetY = e.clientY - targetRect(0).top;
     (offsetX, offsetY, targetRect(0).width, targetRect(0).height)
   }
+
+  def offsetToViewBox(offset: (Double, Double, Double, Double)) = {
+    val (x, y, w, h) = getEffectiveViewBox()
+
+    val xViewBox = x + (offset(0) / offset(2)) * w
+    val yViewBox = y + (offset(1) / offset(3)) * h
+
+    (xViewBox, yViewBox)
+  }
+
 
   def move(dx: Double, dy: Double) = {
     val (x, y, w, h) = getEffectiveViewBox()
