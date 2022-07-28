@@ -1016,34 +1016,34 @@ function $c_Lcom_github_igordsm_inkdraw_BrushConfiguration$() {
   this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_brushColorElement = this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_element.querySelector("input[type=color]");
   this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_brushColorElement.addEventListener("input", ((this$1) => ((e) => {
     matchResult4: {
-      var x15 = this$1.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_activeBrush;
-      if ((x15 instanceof $c_s_Some)) {
-        var tool = $as_Lcom_github_igordsm_inkdraw_BrushTool($as_s_Some(x15).s_Some__f_value);
+      var x13 = this$1.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_activeBrush;
+      if ((x13 instanceof $c_s_Some)) {
+        var tool = $as_Lcom_github_igordsm_inkdraw_BrushTool($as_s_Some(x13).s_Some__f_value);
         tool.setColor__T__V($as_T(this$1.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_brushColorElement.value));
         break matchResult4
       };
       var x = $m_s_None$();
-      if ((x === x15)) {
+      if ((x === x13)) {
         break matchResult4
       };
-      throw new $c_s_MatchError(x15)
+      throw new $c_s_MatchError(x13)
     }
   }))(this));
   this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_strokeWidthElement = this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_element.querySelector("input[type=range]");
   this.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_strokeWidthElement.addEventListener("input", ((this$2) => ((e$2) => {
     matchResult5: {
-      var x18 = this$2.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_activeBrush;
-      if ((x18 instanceof $c_s_Some)) {
-        var tool$1 = $as_Lcom_github_igordsm_inkdraw_BrushTool($as_s_Some(x18).s_Some__f_value);
+      var x16 = this$2.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_activeBrush;
+      if ((x16 instanceof $c_s_Some)) {
+        var tool$1 = $as_Lcom_github_igordsm_inkdraw_BrushTool($as_s_Some(x16).s_Some__f_value);
         var x$1 = $as_T(this$2.Lcom_github_igordsm_inkdraw_BrushConfiguration$__f_strokeWidthElement.value);
         tool$1.Lcom_github_igordsm_inkdraw_BrushTool__f_strokeWidth = $m_jl_Double$().parseDouble__T__D(x$1);
         break matchResult5
       };
       var x$2 = $m_s_None$();
-      if ((x$2 === x18)) {
+      if ((x$2 === x16)) {
         break matchResult5
       };
-      throw new $c_s_MatchError(x18)
+      throw new $c_s_MatchError(x16)
     }
   }))(this))
 }
@@ -1095,6 +1095,7 @@ function $c_Lcom_github_igordsm_inkdraw_Canvas(id) {
   this.Lcom_github_igordsm_inkdraw_Canvas__f_zoomIn = null;
   this.Lcom_github_igordsm_inkdraw_Canvas__f_zoomOut = null;
   this.Lcom_github_igordsm_inkdraw_Canvas__f_pan = null;
+  this.Lcom_github_igordsm_inkdraw_Canvas__f_eraser = null;
   this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool = null;
   this.Lcom_github_igordsm_inkdraw_Canvas__f_id = id;
   this.Lcom_github_igordsm_inkdraw_Canvas__f_element = document.getElementById(id).querySelector("svg");
@@ -1106,6 +1107,8 @@ function $c_Lcom_github_igordsm_inkdraw_Canvas(id) {
   this.setUpTool__Lcom_github_igordsm_inkdraw_Tool__V(this.Lcom_github_igordsm_inkdraw_Canvas__f_zoomOut);
   this.Lcom_github_igordsm_inkdraw_Canvas__f_pan = new $c_Lcom_github_igordsm_inkdraw_PanTool(this, "pan");
   this.setUpTool__Lcom_github_igordsm_inkdraw_Tool__V(this.Lcom_github_igordsm_inkdraw_Canvas__f_pan);
+  this.Lcom_github_igordsm_inkdraw_Canvas__f_eraser = new $c_Lcom_github_igordsm_inkdraw_EraserTool(this, "eraser");
+  this.setUpTool__Lcom_github_igordsm_inkdraw_Tool__V(this.Lcom_github_igordsm_inkdraw_Canvas__f_eraser);
   this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool = this.Lcom_github_igordsm_inkdraw_Canvas__f_brushTool;
   this.activateTool__Lcom_github_igordsm_inkdraw_Tool__V(this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool);
   this.move__D__D__V(0.0, 0.0)
@@ -1121,8 +1124,7 @@ $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.activateTool__Lcom_github_igords
   var this$1 = this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool;
   $f_Lcom_github_igordsm_inkdraw_Tool__deactivate__V(this$1);
   $f_Lcom_github_igordsm_inkdraw_Tool__activate__V(tool);
-  this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool = tool;
-  this.Lcom_github_igordsm_inkdraw_Canvas__f_element.style.cursor = this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool.cursor__T()
+  this.Lcom_github_igordsm_inkdraw_Canvas__f_currentTool = tool
 });
 $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.loadExternalSVG__T__V = (function(s) {
   this.Lcom_github_igordsm_inkdraw_Canvas__f_element.outerHTML = s;
@@ -1130,8 +1132,8 @@ $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.loadExternalSVG__T__V = (functio
   this.move__D__D__V(0.0, 0.0)
 });
 $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.setUpTool__Lcom_github_igordsm_inkdraw_Tool__V = (function(tool) {
-  var \u03b41$ = tool.element__Lorg_scalajs_dom_Element().querySelector(".icon");
-  \u03b41$.addEventListener("click", ((this$1, tool$2) => ((e) => {
+  var \u03b42$ = tool.element__Lorg_scalajs_dom_Element().querySelector(".icon");
+  \u03b42$.addEventListener("click", ((this$1, tool$2) => ((e) => {
     this$1.activateTool__Lcom_github_igordsm_inkdraw_Tool__V(tool$2)
   }))(this, tool))
 });
@@ -1165,30 +1167,58 @@ $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.getOffset__Lorg_scalajs_dom_Mous
   var _4 = $uD(targetRect[0].height);
   return new $c_T4(offsetX, offsetY, _3, _4)
 });
-$c_Lcom_github_igordsm_inkdraw_Canvas.prototype.move__D__D__V = (function(dx, dy) {
+$c_Lcom_github_igordsm_inkdraw_Canvas.prototype.offsetToViewBox__T4__T2 = (function(offset) {
   matchResult1: {
-    var \u03b42$___1;
-    var \u03b42$___2;
-    var \u03b42$___3;
-    var \u03b42$___4;
+    var \u03b43$___1;
+    var \u03b43$___2;
+    var \u03b43$___3;
+    var \u03b43$___4;
     var x1 = this.getEffectiveViewBox__T4();
     if ((x1 !== null)) {
       var x = $uD(x1.T4__f__1);
       var y = $uD(x1.T4__f__2);
       var w = $uD(x1.T4__f__3);
       var h = $uD(x1.T4__f__4);
-      var \u03b42$___1 = x;
-      var \u03b42$___2 = y;
-      var \u03b42$___3 = w;
-      var \u03b42$___4 = h;
+      var \u03b43$___1 = x;
+      var \u03b43$___2 = y;
+      var \u03b43$___3 = w;
+      var \u03b43$___4 = h;
       break matchResult1
     };
     throw new $c_s_MatchError(x1)
   };
-  var x$2 = $uD(\u03b42$___1);
-  var y$2 = $uD(\u03b42$___2);
-  var w$2 = $uD(\u03b42$___3);
-  var h$2 = $uD(\u03b42$___4);
+  var x$2 = $uD(\u03b43$___1);
+  var y$2 = $uD(\u03b43$___2);
+  var w$2 = $uD(\u03b43$___3);
+  var h$2 = $uD(\u03b43$___4);
+  var xViewBox = (x$2 + (($uD(offset.T4__f__1) / $uD(offset.T4__f__3)) * w$2));
+  var yViewBox = (y$2 + (($uD(offset.T4__f__2) / $uD(offset.T4__f__4)) * h$2));
+  return new $c_T2(xViewBox, yViewBox)
+});
+$c_Lcom_github_igordsm_inkdraw_Canvas.prototype.move__D__D__V = (function(dx, dy) {
+  matchResult2: {
+    var \u03b41$___1;
+    var \u03b41$___2;
+    var \u03b41$___3;
+    var \u03b41$___4;
+    var x6 = this.getEffectiveViewBox__T4();
+    if ((x6 !== null)) {
+      var x = $uD(x6.T4__f__1);
+      var y = $uD(x6.T4__f__2);
+      var w = $uD(x6.T4__f__3);
+      var h = $uD(x6.T4__f__4);
+      var \u03b41$___1 = x;
+      var \u03b41$___2 = y;
+      var \u03b41$___3 = w;
+      var \u03b41$___4 = h;
+      break matchResult2
+    };
+    throw new $c_s_MatchError(x6)
+  };
+  var x$2 = $uD(\u03b41$___1);
+  var y$2 = $uD(\u03b41$___2);
+  var w$2 = $uD(\u03b41$___3);
+  var h$2 = $uD(\u03b41$___4);
   this.Lcom_github_igordsm_inkdraw_Canvas__f_element.setAttribute("viewBox", $m_sc_StringOps$().format$extension__T__sci_Seq__T("%s %s %s %s", $m_sr_ScalaRunTime$().genericWrapArray__O__sci_ArraySeq(new $ac_O([(x$2 + dx), (y$2 + dy), w$2, h$2]))))
 });
 var $d_Lcom_github_igordsm_inkdraw_Canvas = new $TypeData().initClass({
@@ -1201,6 +1231,7 @@ $c_Lcom_github_igordsm_inkdraw_Canvas.prototype.$classData = $d_Lcom_github_igor
 function $f_Lcom_github_igordsm_inkdraw_Tool__activate__V($thiz) {
   $thiz.element__Lorg_scalajs_dom_Element().classList.add("active");
   $thiz.element__Lorg_scalajs_dom_Element().classList.remove("inactive");
+  $thiz.canvas__Lcom_github_igordsm_inkdraw_Canvas().Lcom_github_igordsm_inkdraw_Canvas__f_element.style.cursor = $thiz.cursor__T();
   $thiz.doActivationLogic__V()
 }
 function $f_Lcom_github_igordsm_inkdraw_Tool__deactivate__V($thiz) {
@@ -5490,6 +5521,9 @@ $h_Lcom_github_igordsm_inkdraw_BrushTool.prototype = $c_Lcom_github_igordsm_inkd
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.cursor__T = (function() {
   return this.Lcom_github_igordsm_inkdraw_BrushTool__f_cursor
 });
+$c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.canvas__Lcom_github_igordsm_inkdraw_Canvas = (function() {
+  return this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas
+});
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.element__Lorg_scalajs_dom_Element = (function() {
   return this.Lcom_github_igordsm_inkdraw_BrushTool__f_element
 });
@@ -5498,56 +5532,28 @@ $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.setColor__T__V = (function(c)
   this.Lcom_github_igordsm_inkdraw_BrushTool__f_icon.style.color = c
 });
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.doActivationLogic__V = (function() {
+  var \u03b44$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b44$.addEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_BrushTool__f_startStrokeJs);
   var \u03b45$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b45$.addEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_BrushTool__f_startStrokeJs);
+  \u03b45$.addEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_BrushTool__f_endStrokeJs);
   var \u03b46$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b46$.addEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_BrushTool__f_endStrokeJs);
-  var \u03b47$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b47$.addEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_BrushTool__f_mouseMoveJS);
+  \u03b46$.addEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_BrushTool__f_mouseMoveJS);
   $m_Lcom_github_igordsm_inkdraw_BrushConfiguration$().show__Lcom_github_igordsm_inkdraw_BrushTool__V(this)
 });
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.doDeactivationLogic__V = (function() {
+  var \u03b47$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b47$.removeEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_BrushTool__f_startStrokeJs);
   var \u03b48$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b48$.removeEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_BrushTool__f_startStrokeJs);
+  \u03b48$.removeEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_BrushTool__f_endStrokeJs);
   var \u03b49$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b49$.removeEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_BrushTool__f_endStrokeJs);
-  var \u03b410$ = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b410$.removeEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_BrushTool__f_mouseMoveJS);
+  \u03b49$.removeEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_BrushTool__f_mouseMoveJS);
   $m_Lcom_github_igordsm_inkdraw_BrushConfiguration$().hide__V()
-});
-$c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.offsetToViewBox__Lcom_github_igordsm_inkdraw_Canvas__T4__T2 = (function(c, offset) {
-  matchResult2: {
-    var \u03b44$___1;
-    var \u03b44$___2;
-    var \u03b44$___3;
-    var \u03b44$___4;
-    var x6 = c.getEffectiveViewBox__T4();
-    if ((x6 !== null)) {
-      var x = $uD(x6.T4__f__1);
-      var y = $uD(x6.T4__f__2);
-      var w = $uD(x6.T4__f__3);
-      var h = $uD(x6.T4__f__4);
-      var \u03b44$___1 = x;
-      var \u03b44$___2 = y;
-      var \u03b44$___3 = w;
-      var \u03b44$___4 = h;
-      break matchResult2
-    };
-    throw new $c_s_MatchError(x6)
-  };
-  var x$2 = $uD(\u03b44$___1);
-  var y$2 = $uD(\u03b44$___2);
-  var w$2 = $uD(\u03b44$___3);
-  var h$2 = $uD(\u03b44$___4);
-  var xViewBox = (x$2 + (($uD(offset.T4__f__1) / $uD(offset.T4__f__3)) * w$2));
-  var yViewBox = (y$2 + (($uD(offset.T4__f__2) / $uD(offset.T4__f__4)) * h$2));
-  return new $c_T2(xViewBox, yViewBox)
 });
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.startStroke__Lorg_scalajs_dom_MouseEvent__V = (function(e) {
   var offset = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.getOffset__Lorg_scalajs_dom_MouseEvent__T4(e);
   if (($uI(e.buttons) === 1)) {
     var cp = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    var posViewBox = this.offsetToViewBox__Lcom_github_igordsm_inkdraw_Canvas__T4__T2(this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas, offset);
+    var posViewBox = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.offsetToViewBox__T4__T2(offset);
     cp.setAttribute("d", (((("M " + $uD(posViewBox.T2__f__1)) + " ") + $uD(posViewBox.T2__f__2)) + " "));
     cp.setAttribute("fill", "none");
     cp.setAttribute("stroke", this.Lcom_github_igordsm_inkdraw_BrushTool__f_color);
@@ -5559,19 +5565,19 @@ $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.startStroke__Lorg_scalajs_dom
 });
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.pointerMove__Lorg_scalajs_dom_MouseEvent__V = (function(e) {
   var offset = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.getOffset__Lorg_scalajs_dom_MouseEvent__T4(e);
-  matchResult3: {
-    var x11 = this.Lcom_github_igordsm_inkdraw_BrushTool__f_current_path;
-    if ((x11 instanceof $c_s_Some)) {
-      var x13 = $as_s_Some(x11).s_Some__f_value;
-      if ((x13 !== null)) {
+  matchResult2: {
+    var x6 = this.Lcom_github_igordsm_inkdraw_BrushTool__f_current_path;
+    if ((x6 instanceof $c_s_Some)) {
+      var x8 = $as_s_Some(x6).s_Some__f_value;
+      if ((x8 !== null)) {
         if (($uI(e.buttons) === 1)) {
-          var posViewBox = this.offsetToViewBox__Lcom_github_igordsm_inkdraw_Canvas__T4__T2(this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas, offset);
-          var current_d = $as_T(x13.getAttribute("d"));
+          var posViewBox = this.Lcom_github_igordsm_inkdraw_BrushTool__f_canvas.offsetToViewBox__T4__T2(offset);
+          var current_d = $as_T(x8.getAttribute("d"));
           var s = (((("L " + $uD(posViewBox.T2__f__1)) + " ") + $uD(posViewBox.T2__f__2)) + " ");
           var next_d = (current_d + s);
-          x13.setAttribute("d", next_d)
+          x8.setAttribute("d", next_d)
         };
-        break matchResult3
+        break matchResult2
       }
     }
   }
@@ -5594,6 +5600,142 @@ var $d_Lcom_github_igordsm_inkdraw_BrushTool = new $TypeData().initClass({
 });
 $c_Lcom_github_igordsm_inkdraw_BrushTool.prototype.$classData = $d_Lcom_github_igordsm_inkdraw_BrushTool;
 /** @constructor */
+function $c_Lcom_github_igordsm_inkdraw_EraserTool(canvas, id) {
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_element = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_cursor = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseDownHandlerJS = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseUpHandlerJS = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseMoveHandlerJS = null;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas = canvas;
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_cursor = "default";
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_element = document.getElementById(id);
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_cursor = "cell";
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseDownHandlerJS = ((this$1) => ((e) => {
+    this$1.startSelectingStrokes__V()
+  }))(this);
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseUpHandlerJS = ((this$2) => ((e$2) => {
+    this$2.endSelectingStrokes__V()
+  }))(this);
+  this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseMoveHandlerJS = ((this$3) => ((e$3) => {
+    this$3.mouseMoveHandler__Lorg_scalajs_dom_MouseEvent__V(e$3)
+  }))(this)
+}
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype = new $h_O();
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.constructor = $c_Lcom_github_igordsm_inkdraw_EraserTool;
+/** @constructor */
+function $h_Lcom_github_igordsm_inkdraw_EraserTool() {
+  /*<skip>*/
+}
+$h_Lcom_github_igordsm_inkdraw_EraserTool.prototype = $c_Lcom_github_igordsm_inkdraw_EraserTool.prototype;
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.canvas__Lcom_github_igordsm_inkdraw_Canvas = (function() {
+  return this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.element__Lorg_scalajs_dom_Element = (function() {
+  return this.Lcom_github_igordsm_inkdraw_EraserTool__f_element
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.cursor__T = (function() {
+  return this.Lcom_github_igordsm_inkdraw_EraserTool__f_cursor
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.doActivationLogic__V = (function() {
+  var \u03b414$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b414$.addEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseDownHandlerJS);
+  var \u03b415$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b415$.addEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseUpHandlerJS)
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.doDeactivationLogic__V = (function() {
+  var \u03b416$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b416$.removeEventListener("pointerdown", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseDownHandlerJS);
+  var \u03b417$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b417$.removeEventListener("pointerup", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseUpHandlerJS)
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.mouseMoveHandler__Lorg_scalajs_dom_MouseEvent__V = (function(e) {
+  var x = $uD(e.clientX);
+  var y = ($uD(e.clientX) + $uD(e.movementX));
+  var x$1 = $uD(Math.min(x, y));
+  var startX = $doubleToInt($uD(Math.ceil(x$1)));
+  var x$2 = $uD(e.clientX);
+  var y$1 = ($uD(e.clientX) + $uD(e.movementX));
+  var x$3 = $uD(Math.max(x$2, y$1));
+  var endX = $doubleToInt($uD(Math.ceil(x$3)));
+  var x$4 = $uD(e.clientY);
+  var y$2 = ($uD(e.clientY) + $uD(e.movementY));
+  var x$5 = $uD(Math.min(x$4, y$2));
+  var startY = $doubleToInt($uD(Math.ceil(x$5)));
+  var x$6 = $uD(e.clientY);
+  var y$3 = ($uD(e.clientY) + $uD(e.movementY));
+  var x$7 = $uD(Math.max(x$6, y$3));
+  var endY = $doubleToInt($uD(Math.ceil(x$7)));
+  var elem = $m_s_None$();
+  var elem$1 = null;
+  elem$1 = elem;
+  var isEmpty = (startX > endX);
+  if ((!isEmpty)) {
+    var i = startX;
+    while (true) {
+      var arg1 = i;
+      var elementUnderPointer = document.elementFromPoint(arg1, $uD(e.clientY));
+      var y$4 = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+      if ((!$m_sr_BoxesRunTime$().equals__O__O__Z(elementUnderPointer, y$4))) {
+        var ev$1 = new $c_s_Some(elementUnderPointer);
+        elem$1 = ev$1
+      };
+      if ((i === endX)) {
+        break
+      };
+      i = ((1 + i) | 0)
+    }
+  };
+  var isEmpty$1 = (startY > endY);
+  if ((!isEmpty$1)) {
+    var i$1 = startY;
+    while (true) {
+      var arg1$1 = i$1;
+      var elementUnderPointer$1 = document.elementFromPoint($uD(e.clientX), arg1$1);
+      var y$5 = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+      if ((!$m_sr_BoxesRunTime$().equals__O__O__Z(elementUnderPointer$1, y$5))) {
+        var ev$2 = new $c_s_Some(elementUnderPointer$1);
+        elem$1 = ev$2
+      };
+      if ((i$1 === endY)) {
+        break
+      };
+      i$1 = ((1 + i$1) | 0)
+    }
+  };
+  matchResult3: {
+    var x10 = $as_s_Option(elem$1);
+    if ((x10 instanceof $c_s_Some)) {
+      var stroke = $as_s_Some(x10).s_Some__f_value;
+      stroke.classList.add("to-delete");
+      break matchResult3
+    }
+  }
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.startSelectingStrokes__V = (function() {
+  var \u03b412$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b412$.addEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseMoveHandlerJS)
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.endSelectingStrokes__V = (function() {
+  var \u03b413$ = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b413$.removeEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_EraserTool__f_mouseMoveHandlerJS);
+  var domList = this.Lcom_github_igordsm_inkdraw_EraserTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element.querySelectorAll(".to-delete");
+  var this$2 = new $c_Lorg_scalajs_dom_DOMList$DOMListSeq(domList);
+  var it = this$2.iterator__sc_Iterator();
+  while (it.hasNext__Z()) {
+    var arg1 = it.next__O();
+    arg1.remove()
+  }
+});
+var $d_Lcom_github_igordsm_inkdraw_EraserTool = new $TypeData().initClass({
+  Lcom_github_igordsm_inkdraw_EraserTool: 0
+}, false, "com.github.igordsm.inkdraw.EraserTool", {
+  Lcom_github_igordsm_inkdraw_EraserTool: 1,
+  O: 1,
+  Lcom_github_igordsm_inkdraw_Tool: 1
+});
+$c_Lcom_github_igordsm_inkdraw_EraserTool.prototype.$classData = $d_Lcom_github_igordsm_inkdraw_EraserTool;
+/** @constructor */
 function $c_Lcom_github_igordsm_inkdraw_PanTool(canvas, id) {
   this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas = null;
   this.Lcom_github_igordsm_inkdraw_PanTool__f_element = null;
@@ -5614,6 +5756,9 @@ function $h_Lcom_github_igordsm_inkdraw_PanTool() {
   /*<skip>*/
 }
 $h_Lcom_github_igordsm_inkdraw_PanTool.prototype = $c_Lcom_github_igordsm_inkdraw_PanTool.prototype;
+$c_Lcom_github_igordsm_inkdraw_PanTool.prototype.canvas__Lcom_github_igordsm_inkdraw_Canvas = (function() {
+  return this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas
+});
 $c_Lcom_github_igordsm_inkdraw_PanTool.prototype.element__Lorg_scalajs_dom_Element = (function() {
   return this.Lcom_github_igordsm_inkdraw_PanTool__f_element
 });
@@ -5621,12 +5766,12 @@ $c_Lcom_github_igordsm_inkdraw_PanTool.prototype.cursor__T = (function() {
   return this.Lcom_github_igordsm_inkdraw_PanTool__f_cursor
 });
 $c_Lcom_github_igordsm_inkdraw_PanTool.prototype.doActivationLogic__V = (function() {
-  var \u03b411$ = this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b411$.addEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_PanTool__f_dragCanvasJs)
+  var \u03b410$ = this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b410$.addEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_PanTool__f_dragCanvasJs)
 });
 $c_Lcom_github_igordsm_inkdraw_PanTool.prototype.doDeactivationLogic__V = (function() {
-  var \u03b412$ = this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
-  \u03b412$.removeEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_PanTool__f_dragCanvasJs)
+  var \u03b411$ = this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas.Lcom_github_igordsm_inkdraw_Canvas__f_element;
+  \u03b411$.removeEventListener("pointermove", this.Lcom_github_igordsm_inkdraw_PanTool__f_dragCanvasJs)
 });
 $c_Lcom_github_igordsm_inkdraw_PanTool.prototype.dragCanvas__Lorg_scalajs_dom_MouseEvent__V = (function(e) {
   var viewBox = this.Lcom_github_igordsm_inkdraw_PanTool__f_canvas.getEffectiveViewBox__T4();
@@ -5670,6 +5815,9 @@ function $h_Lcom_github_igordsm_inkdraw_ZoomTool() {
   /*<skip>*/
 }
 $h_Lcom_github_igordsm_inkdraw_ZoomTool.prototype = $c_Lcom_github_igordsm_inkdraw_ZoomTool.prototype;
+$c_Lcom_github_igordsm_inkdraw_ZoomTool.prototype.canvas__Lcom_github_igordsm_inkdraw_Canvas = (function() {
+  return this.Lcom_github_igordsm_inkdraw_ZoomTool__f_canvas
+});
 $c_Lcom_github_igordsm_inkdraw_ZoomTool.prototype.element__Lorg_scalajs_dom_Element = (function() {
   return this.Lcom_github_igordsm_inkdraw_ZoomTool__f_element
 });
@@ -8273,6 +8421,65 @@ var $d_ju_Formatter = new $TypeData().initClass({
 });
 $c_ju_Formatter.prototype.$classData = $d_ju_Formatter;
 /** @constructor */
+function $c_Lorg_scalajs_dom_DOMList$DOMListIterator(domList) {
+  this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_domList = null;
+  this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index = 0;
+  this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_domList = domList;
+  this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index = 0
+}
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype = new $h_O();
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.constructor = $c_Lorg_scalajs_dom_DOMList$DOMListIterator;
+/** @constructor */
+function $h_Lorg_scalajs_dom_DOMList$DOMListIterator() {
+  /*<skip>*/
+}
+$h_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype = $c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype;
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.knownSize__I = (function() {
+  return (-1)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.copyToArray__O__I__I__I = (function(xs, start, len) {
+  return $f_sc_IterableOnceOps__copyToArray__O__I__I__I(this, xs, start, len)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.addString__scm_StringBuilder__T__T__T__scm_StringBuilder = (function(b, start, sep, end) {
+  return $f_sc_IterableOnceOps__addString__scm_StringBuilder__T__T__T__scm_StringBuilder(this, b, start, sep, end)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.toArray__s_reflect_ClassTag__O = (function(evidence$2) {
+  return $f_sc_IterableOnceOps__toArray__s_reflect_ClassTag__O(this, evidence$2)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.iterator__sc_Iterator = (function() {
+  return this
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.isEmpty__Z = (function() {
+  return (!this.hasNext__Z())
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.concat__F0__sc_Iterator = (function(xs) {
+  return $f_sc_Iterator__concat__F0__sc_Iterator(this, xs)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.drop__I__sc_Iterator = (function(n) {
+  return $f_sc_Iterator__sliceIterator__I__I__sc_Iterator(this, n, (-1))
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.toString__T = (function() {
+  return "<iterator>"
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.hasNext__Z = (function() {
+  return (this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index < $uI(this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_domList.length))
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.next__O = (function() {
+  var res = this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_domList[this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index];
+  this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index = ((1 + this.Lorg_scalajs_dom_DOMList$DOMListIterator__f_index) | 0);
+  return res
+});
+var $d_Lorg_scalajs_dom_DOMList$DOMListIterator = new $TypeData().initClass({
+  Lorg_scalajs_dom_DOMList$DOMListIterator: 0
+}, false, "org.scalajs.dom.DOMList$DOMListIterator", {
+  Lorg_scalajs_dom_DOMList$DOMListIterator: 1,
+  O: 1,
+  sc_IterableOnce: 1,
+  sc_IterableOnceOps: 1,
+  sc_Iterator: 1
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListIterator.prototype.$classData = $d_Lorg_scalajs_dom_DOMList$DOMListIterator;
+/** @constructor */
 function $c_sc_AbstractIterator() {
   /*<skip>*/
 }
@@ -9042,6 +9249,15 @@ $c_s_Option.prototype.iterator__sc_Iterator = (function() {
     return new $c_sc_Iterator$$anon$20(a)
   }
 });
+function $as_s_Option(obj) {
+  return (((obj instanceof $c_s_Option) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.Option"))
+}
+function $isArrayOf_s_Option(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_Option)))
+}
+function $asArrayOf_s_Option(obj, depth) {
+  return (($isArrayOf_s_Option(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.Option;", depth))
+}
 /** @constructor */
 function $c_T2(_1, _2) {
   this.T2__f__1 = null;
@@ -9617,6 +9833,36 @@ function $isArrayOf_sc_LinearSeqOps(obj, depth) {
 }
 function $asArrayOf_sc_LinearSeqOps(obj, depth) {
   return (($isArrayOf_sc_LinearSeqOps(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.LinearSeqOps;", depth))
+}
+/** @constructor */
+function $c_sc_Seq$() {
+  this.sc_SeqFactory$Delegate__f_delegate = null;
+  $ct_sc_SeqFactory$Delegate__sc_SeqFactory__(this, $m_sci_Seq$())
+}
+$c_sc_Seq$.prototype = new $h_sc_SeqFactory$Delegate();
+$c_sc_Seq$.prototype.constructor = $c_sc_Seq$;
+/** @constructor */
+function $h_sc_Seq$() {
+  /*<skip>*/
+}
+$h_sc_Seq$.prototype = $c_sc_Seq$.prototype;
+var $d_sc_Seq$ = new $TypeData().initClass({
+  sc_Seq$: 0
+}, false, "scala.collection.Seq$", {
+  sc_Seq$: 1,
+  sc_SeqFactory$Delegate: 1,
+  O: 1,
+  sc_SeqFactory: 1,
+  sc_IterableFactory: 1,
+  Ljava_io_Serializable: 1
+});
+$c_sc_Seq$.prototype.$classData = $d_sc_Seq$;
+var $n_sc_Seq$;
+function $m_sc_Seq$() {
+  if ((!$n_sc_Seq$)) {
+    $n_sc_Seq$ = new $c_sc_Seq$()
+  };
+  return $n_sc_Seq$
 }
 /** @constructor */
 function $c_sc_StrictOptimizedLinearSeqOps$$anon$1(outer) {
@@ -13819,6 +14065,87 @@ function $h_sc_View$Map() {
   /*<skip>*/
 }
 $h_sc_View$Map.prototype = $c_sc_View$Map.prototype;
+/** @constructor */
+function $c_Lorg_scalajs_dom_DOMList$DOMListSeq(domList) {
+  this.Lorg_scalajs_dom_DOMList$DOMListSeq__f_domList = null;
+  this.Lorg_scalajs_dom_DOMList$DOMListSeq__f_domList = domList
+}
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype = new $h_O();
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.constructor = $c_Lorg_scalajs_dom_DOMList$DOMListSeq;
+/** @constructor */
+function $h_Lorg_scalajs_dom_DOMList$DOMListSeq() {
+  /*<skip>*/
+}
+$h_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype = $c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype;
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.knownSize__I = (function() {
+  return (-1)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.copyToArray__O__I__I__I = (function(xs, start, len) {
+  return $f_sc_IterableOnceOps__copyToArray__O__I__I__I(this, xs, start, len)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.addString__scm_StringBuilder__T__T__T__scm_StringBuilder = (function(b, start, sep, end) {
+  return $f_sc_IterableOnceOps__addString__scm_StringBuilder__T__T__T__scm_StringBuilder(this, b, start, sep, end)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.toArray__s_reflect_ClassTag__O = (function(evidence$2) {
+  return $f_sc_IterableOnceOps__toArray__s_reflect_ClassTag__O(this, evidence$2)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.className__T = (function() {
+  return "Seq"
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.lengthCompare__I__I = (function(len) {
+  return $f_sc_IterableOps__sizeCompare__I__I(this, len)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.isEmpty__Z = (function() {
+  return $f_sc_SeqOps__isEmpty__Z(this)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.sameElements__sc_IterableOnce__Z = (function(that) {
+  return $f_sc_SeqOps__sameElements__sc_IterableOnce__Z(this, that)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.canEqual__O__Z = (function(that) {
+  return true
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.equals__O__Z = (function(o) {
+  return $f_sc_Seq__equals__O__Z(this, o)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.hashCode__I = (function() {
+  return $m_s_util_hashing_MurmurHash3$().seqHash__sc_Seq__I(this)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.toString__T = (function() {
+  return $f_sc_Iterable__toString__T(this)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.length__I = (function() {
+  return $uI(this.Lorg_scalajs_dom_DOMList$DOMListSeq__f_domList.length)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.apply__I__O = (function(x) {
+  return this.Lorg_scalajs_dom_DOMList$DOMListSeq__f_domList[x]
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.iterator__sc_Iterator = (function() {
+  return new $c_Lorg_scalajs_dom_DOMList$DOMListIterator(this.Lorg_scalajs_dom_DOMList$DOMListSeq__f_domList)
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.apply__O__O = (function(v1) {
+  return this.apply__I__O($uI(v1))
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.fromSpecific__sc_IterableOnce__O = (function(coll) {
+  var this$1 = $m_sc_Seq$();
+  return this$1.from__sc_IterableOnce__sc_SeqOps(coll)
+});
+var $d_Lorg_scalajs_dom_DOMList$DOMListSeq = new $TypeData().initClass({
+  Lorg_scalajs_dom_DOMList$DOMListSeq: 0
+}, false, "org.scalajs.dom.DOMList$DOMListSeq", {
+  Lorg_scalajs_dom_DOMList$DOMListSeq: 1,
+  O: 1,
+  sc_IterableOnce: 1,
+  sc_IterableOnceOps: 1,
+  sc_IterableOps: 1,
+  sc_IterableFactoryDefaults: 1,
+  sc_Iterable: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  sc_SeqOps: 1,
+  s_Equals: 1,
+  sc_Seq: 1
+});
+$c_Lorg_scalajs_dom_DOMList$DOMListSeq.prototype.$classData = $d_Lorg_scalajs_dom_DOMList$DOMListSeq;
 /** @constructor */
 function $c_sc_AbstractSeq() {
   /*<skip>*/

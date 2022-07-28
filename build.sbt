@@ -1,6 +1,6 @@
 enablePlugins(ScalaJSPlugin)
 
-name := "Scala.js Tutorial"
+name := "Ink Draw"
 scalaVersion := "3.1.0"
 
 libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.1.0"
