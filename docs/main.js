@@ -19588,4 +19588,4 @@ $L0 = new $c_RTLong(0, 0);
 $d_J.zero = $L0;
 $s_Lcom_github_igordsm_inkdraw_App__main__AT__V(new ($d_T.getArrayOf().constr)([]));
 }).call(this);
-//# sourceMappingURL=main.js.map
+//# sourceMappingURL=ink-draw-fastopt.js.map
